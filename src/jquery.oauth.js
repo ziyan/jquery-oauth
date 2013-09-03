@@ -125,36 +125,24 @@
         return key;
       }
     };
-    rfc3986_encode_map = {
-      '/\!/g': '%21',
-      '/\*/g': '%2A',
-      '/\'/g': '%27',
-      '/\(/g': '%28',
-      '/\)/g': '%29'
-    };
-    rfc3986_decode_map = {
-      '/%21/g': '!',
-      '/%2A/g': '*',
-      '/%27/g': '\'',
-      '/%28/g': '(',
-      '/%29/g': ')'
-    };
+    rfc3986_encode_map = [[/\!/g, '%21'], [/\*/g, '%2A'], [/\'/g, '%27'], [/\(/g, '%28'], [/\)/g, '%29']];
+    rfc3986_decode_map = [[/%21/g, '!'], [/%2A/g, '*'], [/%27/g, '\''], [/%28/g, '('], [/%29/g, ')']];
     rfc3986_encode = function(value) {
-      var re, replace;
+      var entry, _i, _len;
 
       value = encodeURIComponent(value);
-      for (re in rfc3986_encode_map) {
-        replace = rfc3986_encode_map[re];
-        value = value.replace(re, replace);
+      for (_i = 0, _len = rfc3986_encode_map.length; _i < _len; _i++) {
+        entry = rfc3986_encode_map[_i];
+        value = value.replace(entry[0], entry[1]);
       }
       return value;
     };
     rfc3986_decode = function(value) {
-      var re, replace;
+      var entry, _i, _len;
 
-      for (re in rfc3986_decode_map) {
-        replace = rfc3986_decode_map[re];
-        value = value.replace(re, replace);
+      for (_i = 0, _len = rfc3986_decode_map.length; _i < _len; _i++) {
+        entry = rfc3986_decode_map[_i];
+        value = value.replace(entry[0], entry[1]);
       }
       return decodeURIComponent(value);
     };

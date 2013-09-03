@@ -93,29 +93,31 @@
     'PLAINTEXT': (key, base) -> key
 
   # utilities
-  rfc3986_encode_map =
-    '/\!/g': '%21'
-    '/\*/g': '%2A'
-    '/\'/g': '%27'
-    '/\(/g': '%28'
-    '/\)/g': '%29'
+  rfc3986_encode_map = [
+    [/\!/g, '%21'],
+    [/\*/g, '%2A'],
+    [/\'/g, '%27'],
+    [/\(/g, '%28'],
+    [/\)/g, '%29'],
+  ]
 
-  rfc3986_decode_map =
-    '/%21/g': '!'
-    '/%2A/g': '*'
-    '/%27/g': '\''
-    '/%28/g': '('
-    '/%29/g': ')'
+  rfc3986_decode_map = [
+    [/%21/g, '!'],
+    [/%2A/g, '*'],
+    [/%27/g, '\''],
+    [/%28/g, '('],
+    [/%29/g, ')'],
+  ]
 
   rfc3986_encode = (value) ->
     value = encodeURIComponent(value)
-    for re, replace of rfc3986_encode_map
-      value = value.replace(re, replace) 
+    for entry in rfc3986_encode_map
+      value = value.replace(entry[0], entry[1]) 
     return value
 
   rfc3986_decode = (value) ->
-    for re, replace of rfc3986_decode_map
-      value = value.replace(re, replace) 
+    for entry in rfc3986_decode_map
+      value = value.replace(entry[0], entry[1]) 
     return decodeURIComponent(value)
 
   escape = (value) ->
